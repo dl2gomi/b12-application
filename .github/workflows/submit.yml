@@ -1,0 +1,48 @@
+name: Submit B12 Application
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Construct repository URL
+        id: repo_url
+        run: |
+          echo "url=https://github.com/${{ github.repository }}" >> $GITHUB_OUTPUT
+
+      - name: Construct action run URL
+        id: run_url
+        run: |
+          echo "url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_OUTPUT
+
+      - name: Submit application
+        env:
+          APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
+          APPLICATION_EMAIL: ${{ secrets.APPLICATION_EMAIL }}
+          APPLICATION_RESUME_LINK: ${{ secrets.APPLICATION_RESUME_LINK }}
+          GITHUB_REPOSITORY_URL: ${{ steps.repo_url.outputs.url }}
+          GITHUB_RUN_URL: ${{ steps.run_url.outputs.url }}
+          SIGNING_SECRET: ${{ secrets.SIGNING_SECRET }}
+          SUBMISSION_URL: ${{ secrets.SUBMISSION_URL }}
+        run: |
+          python submit_application.py
+
