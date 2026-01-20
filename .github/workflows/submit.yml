@@ -36,13 +36,13 @@ jobs:
 
       - name: Submit application
         env:
-          APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
-          APPLICATION_EMAIL: ${{ secrets.APPLICATION_EMAIL }}
-          APPLICATION_RESUME_LINK: ${{ secrets.APPLICATION_RESUME_LINK }}
+          APPLICATION_NAME: ${{ vars.APPLICATION_NAME }}
+          APPLICATION_EMAIL: ${{ vars.APPLICATION_EMAIL }}
+          APPLICATION_RESUME_LINK: ${{ vars.APPLICATION_RESUME_LINK }}
           GITHUB_REPOSITORY_URL: ${{ steps.repo_url.outputs.url }}
           GITHUB_RUN_URL: ${{ steps.run_url.outputs.url }}
           SIGNING_SECRET: ${{ secrets.SIGNING_SECRET }}
-          SUBMISSION_URL: ${{ secrets.SUBMISSION_URL }}
+          SUBMISSION_URL: ${{ vars.SUBMISSION_URL }}
         run: |
           python submit_application.py
 

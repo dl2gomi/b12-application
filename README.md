@@ -17,12 +17,30 @@ This repository contains the Python script and GitHub Action workflow for submit
    - `SIGNING_SECRET`: The signing secret for HMAC-SHA256 (default: `hello-there-from-b12`)
    - `SUBMISSION_URL`: The URL to POST submissions to (default: `https://b12.io/apply/submission`)
 
-3. **Set up GitHub Secrets** in your repository settings (Settings → Secrets and variables → Actions):
-   - `APPLICATION_NAME`: Your full name
-   - `APPLICATION_EMAIL`: Your email address
-   - `APPLICATION_RESUME_LINK`: URL to your resume (PDF, HTML, or LinkedIn profile)
-   - `SIGNING_SECRET`: The signing secret (same value as in `.env`)
-   - `SUBMISSION_URL`: The submission URL (same value as in `.env`)
+3. **Set up GitHub Variables and Secrets** (REQUIRED for GitHub Actions to work):
+   
+   Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**
+   
+   **A. Add Variables** (non-sensitive values):
+   - Click on the **"Variables"** tab → Click **"New repository variable"**
+   - Add these variables:
+   
+   | Variable Name | Value | Description |
+   |---------------|-------|-------------|
+   | `APPLICATION_NAME` | Your full name | e.g., "John Doe" |
+   | `APPLICATION_EMAIL` | Your email address | e.g., "john@example.com" |
+   | `APPLICATION_RESUME_LINK` | URL to your resume | e.g., "https://linkedin.com/in/johndoe" or "https://example.com/resume.pdf" |
+   | `SUBMISSION_URL` | `https://b12.io/apply/submission` | The submission endpoint URL |
+   
+   **B. Add Secret** (sensitive value):
+   - Click on the **"Secrets"** tab → Click **"New repository secret"**
+   - Add this secret:
+   
+   | Secret Name | Value | Description |
+   |-------------|-------|-------------|
+   | `SIGNING_SECRET` | `hello-there-from-b12` | The signing secret for HMAC-SHA256 (kept as secret) |
+   
+   **Quick path**: `https://github.com/YOUR_USERNAME/YOUR_REPO/settings/secrets/actions`
 
 4. **Trigger the workflow**:
    - The workflow runs automatically on pushes to `main` or `master` branches
